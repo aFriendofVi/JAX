@@ -178,7 +178,6 @@ class jnet:
             
             if k%np.floor(itemax/10) == 0:
                 print(k*100/itemax,'%')
-                
 #            self.forecast()
 #            self.testLossRec.append(np.linalg.norm(self.forecastError)/self.mt)
 #            ind = rd.sample(range(0,self.backX.shape[0]-1),self.batchSize);
@@ -191,7 +190,7 @@ class jnet:
             self.jacobian = None
             self.mu = 0.0001#/self.batchSize*(100/(100+k))
             self.dW = [None]*self.nLayer
-            self.dB = [None]*self.nLayer
+#            self.dB = [None]*self.nLayer
             for i in list(range(self.nLayer))[0:-1]:
                 
                 rs = len(self.layerList[0].DOut)
@@ -226,13 +225,13 @@ class jnet:
 #                print(self.layerList[i].neuronVal.shape)
 #                print(self.contractedJac.shape)
                 self.dW[i+1]=(self.contractedJac)
-                self.dB[i+1]=(self.contractedBiasGrad)
+#                self.dB[i+1]=(self.contractedBiasGrad)
     
 #                print(self.dB[i+1].shape)
 #                print(self.layerList[i+1].bias)                
                 
                 self.layerList[i+1].updateFilter(self.dW[i+1]*self.mu)
-                self.layerList[i+1].updateBias(self.dB[i+1]*self.mu*1)
+#                self.layerList[i+1].updateBias(self.dB[i+1]*self.mu*0)
             
         self.fig = plt.figure()
         plt.plot(self.lossRec,'b--')
@@ -275,7 +274,7 @@ class jnet:
             self.layerList[i].getBias(newFilter[1][i])
         
         
-__all__ = ['
+
 
 
 print('JAX loaded')

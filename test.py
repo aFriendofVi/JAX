@@ -30,17 +30,21 @@ dataSet = np.array(pd.read_csv(r'F:\mywd\macLea\Python\autoDiff\tra.csv', sep=',
 dtype=np.float64)
 dataSet[:,64][dataSet[:,64]!=5]=-1
 dataSet[:,64][dataSet[:,64]==5]=1
-trainX = (dataSet[:,:-1]-32)/8
+trainX = (dataSet[:,:-1]-8)/8
 trainY = dataSet[:,64]
 trainX.shape = [3823,8,8]
 trainY.shape = [3823,1]
 #3823
+
+resTX  = np.reshape(trainX,[3823,64])
+
+
 #
 testDataSet = np.array(pd.read_csv(r'F:\mywd\macLea\Python\autoDiff\tes.csv', sep=',',header = None),
 dtype=np.float64)
 testDataSet[:,64][testDataSet[:,64]!=5]=-1
 testDataSet[:,64][testDataSet[:,64]==5]=1
-testX = (testDataSet[:,:-1]-32)/8
+testX = (testDataSet[:,:-1]-8)/8
 testY = testDataSet[:,64]
 testX.shape = [1797,8,8]
 testY.shape = [1797,1]
@@ -71,32 +75,29 @@ testY.shape = [1797,1]
 
 
 
+
 n = jax.jnet(trainX,trainY)
 n.setTestSet(testX,testY)
-n.getLayer([jax.jlayer('tanh',[1]),jax.jlayer('vanila',[1])])#jax.jlayer('tanh',[3,3]),jax.jlayer('softPlus',[4,4]),
+n.getLayer([jax.jlayer('tanh',[1]),jax.jlayer('tanh',[4,4]),jax.jlayer('tanh',[8,8]),jax.jlayer('vanila',[1])])#
 n.initialFilter()
 randomFilter = n.saveFilter()
 #n.forecast()
-n.train(2500)
+n.train(100)
 filter1 = n.saveFilter()
 #n.loadFilter(randomFilter)
 #n.forecast()
 #print(100*n.accuracy)
 #n.loadFilter(filter1)
-print(100*n.trainRSquare)
+#print(100*n.trainRSquare)
 n.forecast()
 print(100*n.accuracy)
-print(100*n.RSquare)
 
-
-
+#print(100*n.RSquare)
 
 
 
 
 #filter10000 lossRec10000 testLossRec10000
-
-
 
 
 
